@@ -18,6 +18,8 @@ $items = explode(',', base64url_decode($rpid));
 
 $clip_url = "http://sample-content/tears-of-steel-dref.mp4";
 $clip .= "      <video src=\"" . htmlspecialchars($clip_url, ENT_QUOTES, 'UTF-8') . "\" clipBegin=\"wallclock(1970-01-01T00:00:00.000Z)\" clipEnd=\"wallclock(1970-01-01T00:00:30.000Z)\"/>\n";
+$clip2 .= "      <video src=\"" . htmlspecialchars($clip_url, ENT_QUOTES, 'UTF-8') . "\" clipBegin=\"wallclock(1970-01-01T00:00:32.000Z)\" clipEnd=\"wallclock(1970-01-01T00:01:02.000Z)\"/>\n";
+
 
 # do something simple
 $videos = "";
@@ -29,7 +31,7 @@ if($roll == "2") # pre
 else
 if($roll == "3") # mid
 {
-  $videos = $clip . $ad . $clip;
+  $videos = $clip . $ad . $clip2;
 }
 else
 if($roll == "4") # post

@@ -1,0 +1,40 @@
+# This is the SMIL Origin. It returns a SMIL file.
+
+ServerName smil-origin
+
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule unique_id_module modules/mod_unique_id.so
+
+LogFormat {{LOG_FORMAT}} log_format
+
+<VirtualHost *:80>
+  CustomLog /dev/stdout log_format
+  ErrorLog /dev/stderr
+
+  LogLevel {{LOG_LEVEL}}
+
+  DocumentRoot /var/www/smil-origin
+  <Directory /var/www/smil-origin>
+    Require all granted
+  </Directory>
+
+  #magic to add a unique ID for tracking remix requests
+  RewriteEngine On
+  RewriteCond %{QUERY_STRING} !(?:^|&)remix_request_id
+  RewriteRule (.*) $1?remix_request_id=%{ENV:UNIQUE_ID} [P,QSA,E=REMIX_REQUEST_ID:%{ENV:UNIQUE_ID}]
+
+  RewriteCond %{QUERY_STRING} (?:^|&)remix_request_id=([^&]+)
+  RewriteRule (.*) - [E=REMIX_REQUEST_ID:%1]
+
+  RequestHeader setifempty REMIX_REQUEST_ID %{REMIX_REQUEST_ID}e
+
+  # CORS headers
+  Header set Access-Control-Allow-Headers "origin, range"
+  Header set Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Expose-Headers "Server,range"
+
+  RewriteRule "^\/smil-origin\/(\w+)\/([\w\+\-\.\=]+)\.smil$" "/use_cases/$1.php?rpid=$2" [PT,L,B,QSA]
+  RewriteRule "^\/(\w+)\/([\w\+\-\.\=]+)\.smil$" "/use_cases/$1.php?rpid=$2" [PT,L,B,QSA]
+
+</VirtualHost>

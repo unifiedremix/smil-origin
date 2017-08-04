@@ -6,7 +6,7 @@ error_reporting(0);
 
 require('../remix-utils.php');
 
-$ad_url = "http://sample-content/logo_5s_dref.mp4";
+$ad_url = "http://sample-content/remix08_dref.mp4";
 $ad = "      <video src=\"" . htmlspecialchars($ad_url, ENT_QUOTES, 'UTF-8') . "\" />\n";
 
 #$ads .= "      </par>\n";

@@ -44,6 +44,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
 <smil xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/2001/SMIL20/Language">
   <head>
+    <meta name="outputDescription" content="<?php echo $clip_url; ?>" />
   </head>
   <body>
     <seq>
